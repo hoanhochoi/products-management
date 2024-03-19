@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema(
         price: Number,
         discountPercentage: Number,
         stock: Number,
-        thumbnail: Number,
+        thumbnail: String,
         status: String,
         position: Number,
         deleted: Boolean
@@ -15,4 +15,4 @@ const productSchema = new mongoose.Schema(
 );
 const Product = mongoose.model('Product', productSchema,"products"); // products sau giống phẩy thứ 3 là tên collection trong database
 
-module.exports = Products;
+module.exports = Product;
