@@ -6,6 +6,8 @@ const database = require("./config/database")
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
 
+const systemAdmin = require("./config/system");
+
 
 
 database.connect();
@@ -32,6 +34,9 @@ app.use(express.static("public"));
 
 routeAdmin(app);
 route(app);
+
+// app local variable
+app.locals.prefixAdmin = systemAdmin.prefixAdmin;// sử dụng được ở mọi file pug
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
