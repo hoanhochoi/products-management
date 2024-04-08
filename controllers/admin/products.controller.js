@@ -1,5 +1,6 @@
 const Product = require("../../models/products.model");
 const filterStatusHelper = require("../../helpers/filterStatusHelper")
+const searchHelper = require("../../helpers/searchHelper")
 // [GET] /admin/product
 module.exports.products = async (req,res)=>{
  
@@ -17,15 +18,16 @@ module.exports.products = async (req,res)=>{
         find.status = req.query.status;
     }
 
-    let keyword = "";
 
-    if(req.query.keyword){
-        keyword = req.query.keyword;
+    // đoạn code tìm kiếm
+    const objectSearch = searchHelper(req.query);
+    console.log(objectSearch);
 
-        const regex = new RegExp(keyword,"i"); // sử dụng regex trong javascript và tham số thứ hai là i là không phân biệt chữ hoa chữ thường
-        find.title = regex; // monggo hỗ trợ tìm regex
-        
+    if(objectSearch.regex){
+        find.title = objectSearch.regex; // monggo hỗ trợ tìm regex
     }
+
+
 
     const products = await Product.find(find)
     // console.log(products);
@@ -33,6 +35,6 @@ module.exports.products = async (req,res)=>{
         pageTitle: "Trang sản phẩm",
         products : products,
         filterStatus: filterStatus,
-        keyword : keyword
+        keyword : objectSearch.keyword
     });
 }
