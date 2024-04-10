@@ -62,3 +62,17 @@ module.exports.products = async (req,res)=>{
         pagination: objectPagination
     });
 }
+
+// [GET] /adimin/products/change-status/:status/:id 
+module.exports.changeStatus = async (req,res) =>{
+
+    const status = req.params.status;
+    const id = req.params.id;
+    // req.query là dùng để truy cập sau dấu hỏi chấm
+    // req.params là dùng để truy cập đến / động ví dụ : "/:id"
+    
+    await Product.updateOne({_id:id},{status:status}) // https://mongoosejs.com/
+    // res.send(`${status} - ${id}`)
+    res.redirect("back"); // dọc tài liệu https://expressjs.com/en/5x/api.html#res.redirect
+    // https://www.npmjs.com/package/method-override
+}
