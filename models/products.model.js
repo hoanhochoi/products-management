@@ -10,7 +10,8 @@ const productSchema = new mongoose.Schema(
         thumbnail: String,
         status: String,
         position: Number,
-        deleted: Boolean
+        deleted: Boolean,
+        deletedAt: Date
     }
 );
 const Product = mongoose.model('Product', productSchema,"products"); // products sau giống phẩy thứ 3 là tên collection trong database
