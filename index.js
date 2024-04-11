@@ -10,6 +10,8 @@ const routeAdmin = require("./routes/admin/index.route");
 
 const systemAdmin = require("./config/system");
 
+const bodyParser = require('body-parser')
+
 
 
 database.connect();
@@ -20,6 +22,9 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(methodOverride('_method'));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.set("views","./views");
 app.set("view engine","pug");

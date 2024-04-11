@@ -8,7 +8,7 @@ module.exports.products = async (req,res)=>{
     // đoạn code bộ lọc
 
     let filterStatus = filterStatusHelper(req.query)
-    console.log(filterStatus);
+    // console.log(filterStatus);
 
     let find = {
         deleted: false
@@ -32,7 +32,7 @@ module.exports.products = async (req,res)=>{
     // pagination
     
     const countProducts = await Product.countDocuments(find); // ta có hàm countDocument đếm số lượng sản phẩm
-    console.log("count products "+ countProducts)
+    // console.log("count products "+ countProducts)
     let object = {
         currentPage:1,
         limitItems: 4
@@ -63,7 +63,7 @@ module.exports.products = async (req,res)=>{
     });
 }
 
-// [GET] /adimin/products/change-status/:status/:id 
+// [PATCH] /adimin/products/change-status/:status/:id 
 module.exports.changeStatus = async (req,res) =>{
 
     const status = req.params.status;
@@ -76,3 +76,26 @@ module.exports.changeStatus = async (req,res) =>{
     res.redirect("back"); // dọc tài liệu https://expressjs.com/en/5x/api.html#res.redirect
     // https://www.npmjs.com/package/method-override
 }
+
+// [PATCH] /adimin/products/change-multi
+module.exports.changeMulti = async (req,res) =>{
+
+   const type = req.body.type;
+   const ids = req.body.ids.split(", "); // split là chuyển string -> arr có cùng ngăn cách là ", "
+   console.log(type);
+   console.log(ids)
+
+   switch (type) {
+    case "active":
+        await Product.updateMany({ _id:{ $in : ids}}, { status : "active"});
+        break;
+    case "inactive":
+        await Product.updateMany({ _id:{ $in : ids}}, { status : "inactive"});
+        break;
+   
+    default:
+        break;
+   }
+   res.redirect("back")
+
+};
