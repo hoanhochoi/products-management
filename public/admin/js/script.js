@@ -108,7 +108,16 @@ if(formChangeMulti){
         e.preventDefault();// để ngăn hành động mặc định
         const checkboxMulti = document.querySelectorAll("[checkbox-multi]");
         const inputsChecked = document.querySelectorAll("input[name='id']:checked")
-        console.log(inputsChecked)
+        // console.log(inputsChecked)
+
+        const typeChange = e.target.elements.type.value;
+        if(typeChange == "delete-all"){
+            const isconfirm = confirm("bạn có chắc muốn xóa hết không?")
+            if(!isconfirm){
+                return; // nếu chạy vào dòng tất cả dòng code ở dưới ngừng chạy
+            }
+        }
+
         if(inputsChecked.length > 0){
             let ids = [];
             const inputIds = formChangeMulti.querySelector("input[name='ids']");
