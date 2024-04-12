@@ -12,6 +12,6 @@ module.exports = (objectPagination,query,countProducts) => {
     const totalPage = Math.ceil(countProducts / objectPagination.limitItems);
     // Math.ceil để làm tròn số lên một đơn vị ví dụ 4.1 = 5
     objectPagination.totalPage = totalPage;
-   console.log(objectPagination)
+//    console.log(objectPagination)
     return objectPagination;
 }

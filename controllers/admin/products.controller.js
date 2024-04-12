@@ -43,16 +43,13 @@ module.exports.products = async (req,res)=>{
     req.query,
     countProducts
 );
-    
-
-
-
-    
+        
     // end pagination
 
-
-
-    const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
+    const products = await Product.find(find)
+    .sort({position: "desc"}) // desc là giảm dần
+    .limit(objectPagination.limitItems)
+    .skip(objectPagination.skip);
     // console.log(products);
     res.render("admin/pages/products/index.pug",{
         pageTitle: "Trang sản phẩm",
@@ -98,6 +95,18 @@ module.exports.changeMulti = async (req,res) =>{
                 deleted:true,
                 deletedAt: new Date()
             });
+        break;
+    case "change-position":
+        for (item of ids){
+            let [id,position] = item.split("-");
+            // lặp qua mỗi phần tử của mảng và chia id-position 
+            position = parseInt(position); // đang kiểu string thành int
+            console.log(id);
+            console.log(position);
+            await Product.updateOne({_id:id},{position:position})
+            // vì vế thứ hai position nên không thể update nhiều đc 
+            // phải lặp từng vòng rồi update one
+        }
         break;
    
     default:
