@@ -68,8 +68,11 @@ module.exports.changeStatus = async (req,res) =>{
     // req.query là dùng để truy cập sau dấu hỏi chấm
     // req.params là dùng để truy cập đến / động ví dụ : "/:id"
     
-    await Product.updateOne({_id:id},{status:status}) // https://mongoosejs.com/
+    await Product.updateOne({_id:id}, {status:status}) // https://mongoosejs.com/
     // res.send(`${status} - ${id}`)
+
+    req.flash("success", "cập nhật trạng thái thành công!")
+    
     res.redirect("back"); // dọc tài liệu https://expressjs.com/en/5x/api.html#res.redirect
     // https://www.npmjs.com/package/method-override
 }
@@ -85,9 +88,13 @@ module.exports.changeMulti = async (req,res) =>{
    switch (type) {
     case "active":
         await Product.updateMany({ _id:{ $in : ids}}, { status : "active"});
+    req.flash("success", `cập nhật trạng thái thành công ${ids.length}!`)
+
         break;
     case "inactive":
         await Product.updateMany({ _id:{ $in : ids}}, { status : "inactive"});
+    req.flash("success", `cập nhật trạng thái thành công ${ids.length}!`)
+
         break;
     case "delete-all":
         await Product.updateMany({_id : {$in:ids}}, 

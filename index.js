@@ -12,6 +12,12 @@ const systemAdmin = require("./config/system");
 
 const bodyParser = require('body-parser')
 
+const cookieParser = require("cookie-parser");
+
+const session = require("express-session");
+
+const flash = require('express-flash')
+
 
 
 database.connect();
@@ -29,7 +35,20 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.set("views","./views");
 app.set("view engine","pug");
 
+// flash
+
+// lưu ý: cài thêm thư viện npm i cookie-parser
+app.use(cookieParser("KSDFLKJDS")); // key bên trong để bảo mật thông tin
+// lưu ý : cài thêm thư viện npm i express-session
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+
+
+// end flash
+// app local variable
+app.locals.prefixAdmin = systemAdmin.prefixAdmin;// sử dụng được ở mọi file pug
 app.use(express.static("public"));
+
 
 
 
@@ -42,10 +61,9 @@ app.use(express.static("public"));
 // });
 
 routeAdmin(app);
-route(app);
+route(app); // lưu ý là nên để route ở cuối
 
-// app local variable
-app.locals.prefixAdmin = systemAdmin.prefixAdmin;// sử dụng được ở mọi file pug
+
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
