@@ -1,4 +1,6 @@
 const Product = require("../../models/products.model");
+const systemConfig = require("../../config/system")
+
 const filterStatusHelper = require("../../helpers/filterStatusHelper")
 const searchHelper = require("../../helpers/searchHelper")
 const paginationHelper = require("../../helpers/pagination");
@@ -37,7 +39,7 @@ module.exports.products = async (req,res)=>{
         currentPage:1,
         limitItems: 4
     }
-    console.log(typeof(object.limit))
+    // console.log(typeof(object.limit))
     let objectPagination = paginationHelper(
     object,
     req.query,
@@ -88,12 +90,12 @@ module.exports.changeMulti = async (req,res) =>{
    switch (type) {
     case "active":
         await Product.updateMany({ _id:{ $in : ids}}, { status : "active"});
-    req.flash("success", `cập nhật trạng thái thành công ${ids.length}!`)
+    req.flash("success", `cập nhật trạng thái thành công ${ids.length} sản phẩm!`)
 
         break;
     case "inactive":
         await Product.updateMany({ _id:{ $in : ids}}, { status : "inactive"});
-    req.flash("success", `cập nhật trạng thái thành công ${ids.length}!`)
+    req.flash("success", `cập nhật trạng thái thành công ${ids.length} sản phẩm!`)
 
         break;
     case "delete-all":
@@ -102,6 +104,8 @@ module.exports.changeMulti = async (req,res) =>{
                 deleted:true,
                 deletedAt: new Date()
             });
+    req.flash("success", `Đã xóa thành công ${ids.length} sản phẩm!`)
+            
         break;
     case "change-position":
         for (item of ids){
@@ -138,3 +142,33 @@ module.exports.deleteItem = async (req,res) =>{
     res.redirect("back")
 
 } 
+
+// [GET] /admin/product/create
+
+
+
+module.exports.create = async (req,res) =>{
+    res.render("admin/pages/products/create",{
+        pageTitle:"Thêm mới sản phẩm"
+    })
+}
+
+// [POST] /admin/product/create
+
+module.exports.createPost = async (req,res) =>{
+    
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+
+    if(req.body.position == ""){
+        const countProducts = await Product.countDocuments() ;
+        req.body.position = countProducts + 1; 
+    }else{
+        req.body.position = parseInt(req.body.position);
+    }
+    const product = new Product(req.body)
+    await product.save();
+    res.redirect(`${systemConfig.prefixAdmin}/product`)
+    
+}

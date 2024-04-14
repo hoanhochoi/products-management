@@ -13,7 +13,7 @@ module.exports.index = async (req,res)=>{
         return item;
     })
 
-    console.log(products);
+    // console.log(products);
 
     res.render("client/pages/products/lists.pug",{
     pageTitle : "Trang sản phẩm",
