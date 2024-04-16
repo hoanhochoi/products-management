@@ -16,7 +16,8 @@ const cookieParser = require("cookie-parser");
 
 const session = require("express-session");
 
-const flash = require('express-flash')
+const flash = require('express-flash');
+
 
 
 
@@ -32,15 +33,15 @@ app.use(methodOverride('_method'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.set("views","./views");
-app.set("view engine","pug");
+app.set("views", "./views");
+app.set("view engine", "pug");
 
 // flash
 
 // lưu ý: cài thêm thư viện npm i cookie-parser
 app.use(cookieParser("KSDFLKJDS")); // key bên trong để bảo mật thông tin
 // lưu ý : cài thêm thư viện npm i express-session
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 
 
