@@ -156,7 +156,13 @@ module.exports.create = async (req,res) =>{
 // [POST] /admin/product/create
 
 module.exports.createPost = async (req,res) =>{
-    console.log(req.file);
+    // console.log(req.file); là dùng để lấy thông tin trong file
+
+    // if(!req.body.title){
+    //     req.flash("error","vui lòng nhập tiêu đề!");
+    //     res.redirect("back");
+    //     return;
+    // }
     
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
@@ -168,8 +174,9 @@ module.exports.createPost = async (req,res) =>{
     }else{
         req.body.position = parseInt(req.body.position);
     }
-
+    if(req.file){
     req.body.thumbnail=`/uploads/${req.file.filename}`;
+    }
     const product = new Product(req.body)
 
     await product.save();

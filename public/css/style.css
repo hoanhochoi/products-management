@@ -73,3 +73,17 @@
     padding: 3px 10px;
     border-radius: 8px;
 }
+
+
+
+.image-preview{
+    width:150px;
+    height:auto;
+    margin-top: 15px;
+    padding:15px;
+    border: 1px solid #ddd;
+    border-radius:5px;
+}
+.image-preview[src=""]{
+    display:none;
+}

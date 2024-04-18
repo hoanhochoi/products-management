@@ -79,3 +79,20 @@
     cursor:pointer;
 }
 /* end show alert */
+
+/* image Preview */
+.image-preview{
+    width:150px;
+    height:auto;
+    margin-top: 15px;
+    padding:15px;
+    border: 1px solid #ddd;
+    border-radius:5px;
+}
+.image-preview[src=""]{
+    display:none;
+}
+
+/* end image Preview */
+
+

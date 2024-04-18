@@ -1,6 +1,8 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 
 block main 
+    +alert-error(5000)
     h1(class="mb-4") Thêm mới sản phẩm 
 
     form(
@@ -26,7 +28,7 @@ block main
                 name="description",
                  rows="5") 
         div(class="form-group")
-            label(for="price") Giá
+            label(for="price" id="1234") Giá
             input(
                 type="number"
                 class="form-control"
@@ -55,7 +57,10 @@ block main
                 value="0"
                 min="0"
             )
-        div(class="form-group")
+        div(
+            class="form-group"
+            upload-image
+            )
             label(for="thumbnail") Ảnh 
             input(
                 type="file"
@@ -63,7 +68,16 @@ block main
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
+                upload-image-input
             )
+            
+                
+
+            img(
+                src=""
+                upload-image-preview
+            )
+            
         div(class="form-group")
             label(for="position") Vị trí
             input(

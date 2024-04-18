@@ -155,3 +155,22 @@ const showAlert = document.querySelector("[show-alert]")
         console.log(showAlert);
     }
 // end show alert
+
+
+// upload image
+const uploadImage = document.querySelector("[upload-image]");
+    if(uploadImage){
+        const uploadImageInput = document.querySelector("[upload-image-input]");
+        const uploadImagePreview = document.querySelector("[upload-image-preview]");
+        console.log(uploadImageInput);
+        console.log(uploadImagePreview);
+        uploadImageInput.addEventListener("change",(e)=>{
+            console.log(e)
+            const file = e.target.files[0];
+            if(file){
+                uploadImagePreview.src = URL.createObjectURL(file);
+            }
+        })
+        
+        }
+// end upload image
