@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const storageMulter = require("../../helpers/storageMulter");
-const upload = multer({ storage: storageMulter()});
+// const storageMulter = require("../../helpers/storageMulter");
+// const upload = multer({ storage: storageMulter()}); // cho file ở folder 
+
+
+const upload = multer(); // lưu file ở cloud
+
 
 const controller = require("../../controllers/admin/products.controller")
 const validate = require("../../validates/admin/product.validate");
+
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware")
 
 router.get("/", controller.products);
 
@@ -18,19 +24,20 @@ router.delete("/delete/:id", controller.deleteItem);
 router.get("/create", controller.create);
 
 router.post("/create",
-upload.single('thumbnail'),
-validate.createPost,
-controller.createPost);
+    upload.single('thumbnail'),
+    uploadCloud.upload,
+    validate.createPost,
+    controller.createPost);
 
 
-router.get("/edit/:id",controller.edit);
+router.get("/edit/:id", controller.edit);
 
 router.patch("/edit/:id",
-upload.single('thumbnail'),
-validate.createPost,
-controller.editPatch);
+    upload.single('thumbnail'),
+    validate.createPost,
+    controller.editPatch);
 
-router.get("/detail/:id",controller.detail);
+router.get("/detail/:id", controller.detail);
 
 
 
