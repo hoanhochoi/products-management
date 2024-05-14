@@ -48,8 +48,16 @@ module.exports.products = async (req,res)=>{
         
     // end pagination
 
+    // sort
+    let sort = {};
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue; // truyền vào string dùng ngoặc vuông
+    }else
+    sort.position = "desc"; // mặc định sẽ là vị trí giảm dần
+    // end sort
+
     const products = await Product.find(find)
-    .sort({position: "desc"}) // desc là giảm dần
+    .sort(sort) // truyền vào một object
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
     // console.log(products);
@@ -208,9 +216,9 @@ module.exports.editPatch = async (req,res)=>{
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock = parseInt(req.body.stock)
     req.body.position = parseInt(req.body.position);
-    if(req.file){
-    req.body.thumbnail=`/uploads/${req.file.filename}`;
-    }
+    // if(req.file){
+    // req.body.thumbnail=`/uploads/${req.file.filename}`;
+    // } // upload image vào trong folder uploads mới cần
     try {
     await Product.updateOne({_id : req.params.id},req.body);
     req.flash("success","Cập nhật sản phẩm thành công!");
