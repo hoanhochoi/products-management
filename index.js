@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 
 const methodOverride = require("method-override");
 require("dotenv").config();
@@ -46,6 +47,11 @@ app.use(flash());
 
 
 // end flash
+
+// tiny MCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// end tiny MCE
+
 // app local variable
 app.locals.prefixAdmin = systemAdmin.prefixAdmin;// sử dụng được ở mọi file pug
 

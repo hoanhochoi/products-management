@@ -33,7 +33,8 @@ block main
         div(class="mb-4") Vị trí: <b>#{product.position} </b>
     
     if(product.description)
-        div(class="mb-4") #{product.description} 
+        div(class="mb-4") !{product.description} 
+        //- !{} bên trong là đoạn string html có thể biên dịch ra được
 
     a(
         href=`${prefixAdmin}/product/edit/${product.id}`
