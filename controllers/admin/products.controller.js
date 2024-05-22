@@ -1,5 +1,7 @@
 const Product = require("../../models/products.model");
+const ProductCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system")
+const createTreeHelper = require('../../helpers/createTreeHelper.js')
 
 const filterStatusHelper = require("../../helpers/filterStatusHelper")
 const searchHelper = require("../../helpers/searchHelper")
@@ -57,7 +59,7 @@ module.exports.products = async (req,res)=>{
     // end sort
 
     const products = await Product.find(find)
-    .sort(sort) // truyền vào một object
+    .sort(sort) // truyền vào một object 
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
     // console.log(products);
@@ -156,8 +158,11 @@ module.exports.deleteItem = async (req,res) =>{
 
 
 module.exports.create = async (req,res) =>{
+    const record = await ProductCategory.find({deleted:false});
+    const newRecord = createTreeHelper.tree(record);
     res.render("admin/pages/products/create",{
-        pageTitle:"Thêm mới sản phẩm"
+        pageTitle:"Thêm mới sản phẩm",
+        category: newRecord
     })
 }
 
