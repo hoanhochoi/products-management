@@ -207,10 +207,15 @@ module.exports.edit = async (req,res)=>{
         _id : id
     }
     const product = await Product.findOne(find)
+
+    const record = await ProductCategory.find({deleted:false});
+    const newRecord = createTreeHelper.tree(record);
+
     console.log(product)
     res.render("./admin/pages/products/edit.pug",{
         pageTitle: "Chỉnh sửa sản phẩm",
-        product : product
+        product : product,
+        category : newRecord
     })
 }
 
