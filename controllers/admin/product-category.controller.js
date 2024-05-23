@@ -82,3 +82,21 @@ module.exports.editPatch = async (req,res)=>{
     await ProductCategory.updateOne({_id:id},req.body);
     res.redirect('back');
 }
+
+
+// [GET] admin/product-category/detail/:id 
+
+module.exports.detail = async (req,res)=>{
+    const id = req.params.id;
+    console.log(id);
+    const find = {
+        _id:id,
+        deleted: false
+    };
+    const record = await ProductCategory.findOne(find);
+    console.log(record);
+    res.render("./admin/pages/products-category/detail.pug",{
+        pageTitle: "Chi tiết danh mục",
+        record: record
+    });
+}
