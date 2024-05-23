@@ -20,5 +20,5 @@ const rolesSchema = monggose.Schema({
 );
 
 const Role = monggose.model("Role",rolesSchema,"roles");
-// lưu ý tham số thứ ba là tên conlection trong monggo db
+// lưu ý tham số thứ ba là tên conllection trong monggo db
 module.exports = Role;
