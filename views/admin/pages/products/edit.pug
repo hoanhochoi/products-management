@@ -8,7 +8,7 @@ block main
     h1(class="mb-4") Chỉnh sửa sản phẩm
 
     form(
-        action=`${prefixAdmin}/product/edit/${product.id}?_method=PATCH`
+        action=`${prefixAdmin}/edit/${product.id}?_method=PATCH`
         enctype="multipart/form-data"
         id="form-edit-product"
         method="POST"
