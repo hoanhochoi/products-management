@@ -100,3 +100,33 @@ module.exports.detail = async (req,res)=>{
         record: record
     });
 }
+
+// [DELETE] admin/product-category/delete/:id
+module.exports.delete = async (req,res)=>{
+    const id = req.params.id;
+    const find = {
+        deleted:false,
+        _id:id
+    }
+    await ProductCategory.updateOne(find,{deleted:true});
+    res.redirect("back");
+}
+
+
+// [PATCH] admin/product-category/change-status/:status/:id
+
+module.exports.changeStatus = async (req,res)=>{
+    const id = req.params.id;
+    const status = req.params.status;
+    console.log(id);
+    console.log(status);
+    const find = {
+        deleted: false,
+        _id : id
+    }
+    await ProductCategory.updateOne(find,{
+        status: status
+    })
+    res.redirect("back");
+
+}

@@ -31,5 +31,9 @@ route.patch(
     controller.editPatch);
 
 
-route.get("/detail/:id",controller.detail)    
+route.get("/detail/:id",controller.detail) 
+
+route.delete("/delete/:id",controller.delete);
+
+route.patch("/change-status/:status/:id",controller.changeStatus);
 module.exports = route;
