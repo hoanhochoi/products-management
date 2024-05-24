@@ -1,21 +1,44 @@
 const ProductCategory = require("../../models/products-category.model");
 const systemConfig = require("../../config/system")
 const createTreeHelper = require("../../helpers/createTreeHelper");
+const filterStatus = require("../../helpers/filterStatusHelper");
+const filterStatusHelper = require("../../helpers/filterStatusHelper");
+const searchHelper = require("../../helpers/searchHelper");
+
 
 // [GET] admin/product-category
 module.exports.index = async (req,res)=>{
     const find = {
         deleted: false
     };
+    // filter status
+    const filterStatus = filterStatusHelper(req.query)
+    // end filter status
+    if(req.query.status){
+        find.status = req.query.status
+    }
 
-    
+    // search form
+    const objectSearch = searchHelper(req.query);
+    // console.log(objectSearch);
+
+    if(objectSearch.regex){
+        find.title = objectSearch.regex; // monggo hỗ trợ tìm regex
+    }
+   
+
+
+    // end search form
 
     const record = await ProductCategory.find(find);
     const newRecord = createTreeHelper.tree(record);
 
     res.render("./admin/pages/products-category/index.pug",{
         pageTitle:"Trang danh mục sản phẩm",
-        records: newRecord
+        records: newRecord,
+        filterStatus: filterStatus,
+        keyword:objectSearch.keyword
+       
 
     })
 }

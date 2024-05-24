@@ -1,6 +1,7 @@
-let count = 0;
 function createTree(arr,parentId = ""){
     const tree = [];
+let count = 0;
+
     arr.forEach( (item)=>{
 
         if(item.parent_id === parentId){
@@ -18,6 +19,7 @@ function createTree(arr,parentId = ""){
 }
 
 module.exports.tree = (arr,parentId = "")=>{
+    count = 0; // để reset lại cho biến count bằng 0 như ban đầu
     const tree = createTree(arr,parentId= "");
     return tree;
 }
