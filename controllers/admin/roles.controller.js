@@ -89,6 +89,6 @@ try {
     req.flash("success","cập nhật phân quyền thành công!")
     } catch (error) {
     req.flash("error","cập nhật phân quyền thất bại!")
-    }
+     }
    res.redirect("back");
 }

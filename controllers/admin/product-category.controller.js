@@ -103,6 +103,8 @@ module.exports.editPatch = async (req,res)=>{
     console.log(id);
     req.body.position = parseInt(req.body.position);
     await ProductCategory.updateOne({_id:id},req.body);
+    req.flash("success",`cập nhật danh mục sản phẩm thành công!`);
+
     res.redirect('back');
 }
 

@@ -1,17 +1,17 @@
-const monggose = require("monggose");
+const mongoose = require("mongoose");
 const generate = require("../helpers/generate.js");
-const accountSchema = new monggose.Schema(
+const accountSchema = new mongoose.Schema(
     {
         fullName : String,
         email: String,
-        passwords: String,
+        password: String,
         token : {
             type: String,
             default: generate.generateRandomString(20),
         },
         phone: String,
         avatar: String,
-        roles_id: String,
+        role_id: String,
         status: String,
         deleted:{
             type: Boolean,
@@ -24,6 +24,6 @@ const accountSchema = new monggose.Schema(
     }
 );
 
-const Account = monggose.model("Account",accountSchema,"accounts"); 
+const Account = mongoose.model("Account",accountSchema,"accounts"); 
 // tham số thứ 3 là tên collection trong db
 module.exports = Account;
