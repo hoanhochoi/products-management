@@ -9,8 +9,8 @@ block main
     form(
         action=`${prefixAdmin}/account/create`
         method="POST"
-        entype="multipart/form-data"
-        /* truyền multipart rồi thì thêm cả upload ảnh nữa */
+        enctype="multipart/form-data"
+
     )
         div(class="form-group")
             label(for="fullName") Họ tên *
