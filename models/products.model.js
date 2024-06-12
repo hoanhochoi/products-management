@@ -21,6 +21,14 @@ const productSchema = new mongoose.Schema(
             slug:"title",
             unique: true // mục đích để không bị trùng lặp giống
         },
+        createdBy: {
+            account_id: String,
+            createdAt : {
+                type: Date,
+                default: Date.now
+                // dùng default cho ban đầu tạo một record thôi không tác dụng với sửa
+            }
+        },
         deleted: {
             type: Boolean,
             default: false

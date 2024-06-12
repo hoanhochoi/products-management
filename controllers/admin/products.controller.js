@@ -1,5 +1,6 @@
 const Product = require("../../models/products.model");
 const ProductCategory = require("../../models/products-category.model");
+const Account = require("../../models/accounts.model.js")
 const systemConfig = require("../../config/system")
 const createTreeHelper = require('../../helpers/createTreeHelper.js')
 
@@ -63,6 +64,14 @@ module.exports.products = async (req,res)=>{
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
     // console.log(products);
+    for (const product of products) {
+        const user =await Account.findOne({
+            _id : product.createdBy.account_id
+        });
+        if(user){
+            product.accountFullname = user.fullName;
+        }
+    }
     res.render("admin/pages/products/index.pug",{
         pageTitle: "Trang sản phẩm",
         products : products,
@@ -158,6 +167,7 @@ module.exports.deleteItem = async (req,res) =>{
 
 
 module.exports.create = async (req,res) =>{
+    console.log(res.locals.user);
     const record = await ProductCategory.find({deleted:false});
     const newRecord = createTreeHelper.tree(record);
     res.render("admin/pages/products/create",{
@@ -190,6 +200,10 @@ module.exports.createPost = async (req,res) =>{
     // if(req.file){
     // req.body.thumbnail=`/uploads/${req.file.filename}`;
     // } // đoạn code này lưu imge dưới folder uploads
+
+    req.body.createdBy = {
+        account_id: res.locals.user.id
+    }
     const product = new Product(req.body)
 
     await product.save();
