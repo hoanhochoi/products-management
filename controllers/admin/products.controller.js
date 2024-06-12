@@ -65,12 +65,23 @@ module.exports.products = async (req,res)=>{
     .skip(objectPagination.skip);
     // console.log(products);
     for (const product of products) {
-        const user =await Account.findOne({
+        // lấy ra thông tin người tạo
+        const user = await Account.findOne({
             _id : product.createdBy.account_id
         });
         if(user){
             product.accountFullname = user.fullName;
         }
+        // lấy ra thông tin người cập nhật gần nhất
+        const updatedBy = product.updatedBy.slice(-1)[0];
+        // slice -1 sẽ lấy ra mảng đảo được và truyền [0] để lấy vị trí đầu tiên
+        if(updatedBy){
+            const userUpdated = await Account.findOne({
+                _id: updatedBy.account_id
+            });
+            updatedBy.accountFullname = userUpdated.fullName;
+        }
+
     }
     res.render("admin/pages/products/index.pug",{
         pageTitle: "Trang sản phẩm",
@@ -88,8 +99,15 @@ module.exports.changeStatus = async (req,res) =>{
     const id = req.params.id;
     // req.query là dùng để truy cập sau dấu hỏi chấm
     // req.params là dùng để truy cập đến / động ví dụ : "/:id"
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
     
-    await Product.updateOne({_id:id}, {status:status}) // https://mongoosejs.com/
+    await Product.updateOne({_id:id}, {
+        status:status,
+        $push: { updatedBy: updatedBy }
+    }) // https://mongoosejs.com/
     // res.send(`${status} - ${id}`)
 
     req.flash("success", "cập nhật trạng thái thành công!")
@@ -105,7 +123,10 @@ module.exports.changeMulti = async (req,res) =>{
    const ids = req.body.ids.split(", "); // split là chuyển string -> arr có cùng ngăn cách là ", "
    console.log(type);
    console.log(ids)
-
+   const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+    }    
    switch (type) {
     case "active":
         await Product.updateMany({ _id:{ $in : ids}}, { status : "active"});
@@ -136,7 +157,7 @@ module.exports.changeMulti = async (req,res) =>{
             position = parseInt(position); // đang kiểu string thành int
             console.log(id);
             console.log(position);
-            await Product.updateOne({_id:id},{position:position})
+            await Product.updateOne({_id:id},{position:position, $push: { updatedBy: updatedBy }})
             // vì vế thứ hai position nên không thể update nhiều đc 
             // phải lặp từng vòng rồi update one
         }
@@ -250,7 +271,15 @@ module.exports.editPatch = async (req,res)=>{
     // req.body.thumbnail=`/uploads/${req.file.filename}`;
     // } // upload image vào trong folder uploads mới cần
     try {
-    await Product.updateOne({_id : req.params.id},req.body);
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updatedAt: new Date()
+        }
+
+    await Product.updateOne({_id : req.params.id},{
+    ...req.body,
+    $push: { updatedBy: updatedBy }
+    });
     req.flash("success","Cập nhật sản phẩm thành công!");
     } catch (error) {
     req.flash("error","Cập nhật sản phẩm thất bại!") 
