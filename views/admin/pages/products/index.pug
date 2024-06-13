@@ -124,8 +124,10 @@ block main
                                                 ) Dừng hoạt động
                                     td 
                                         p #{item.accountFullname}
-                                        p 
-                                            +formatDatetime(item.createdBy.createdAt)
+                                        if(item.createdBy.createdAt)
+                                            p 
+                                                +formatDatetime(item.createdBy.createdAt)
+                                    
                                     td 
                                         - const updatedBy = item.updatedBy.slice(-1)[0]
                                         if(updatedBy)

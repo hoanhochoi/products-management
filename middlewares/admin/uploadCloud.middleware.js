@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
-
+// https://cloudinary.com/blog/node_js_file_upload_to_a_local_server_or_to_the_cloud
 // clouddinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
