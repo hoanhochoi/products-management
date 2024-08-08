@@ -1,4 +1,4 @@
-const systemConfig = require("../../config/system");
+const systemConfig = require("../../config/system.js");
 const Account = require("../../models/accounts.model.js");
 const Role = require("../../models/roles.model.js");
 module.exports.requireAuth = async (req,res,next)=>{
