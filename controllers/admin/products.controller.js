@@ -263,29 +263,37 @@ module.exports.edit = async (req,res)=>{
 
 //  [PATCH] admin/product/edit/:id
 module.exports.editPatch = async (req,res)=>{
-    req.body.price = parseInt(req.body.price)
-    req.body.discountPercentage = parseInt(req.body.discountPercentage)
-    req.body.stock = parseInt(req.body.stock)
-    req.body.position = parseInt(req.body.position);
-    // if(req.file){
-    // req.body.thumbnail=`/uploads/${req.file.filename}`;
-    // } // upload image vào trong folder uploads mới cần
-    try {
-        const updatedBy = {
-            account_id: res.locals.user.id,
-            updatedAt: new Date()
+    const permissions = res.locals.role.permissions
+    if(permissions.includes("products_edit")){ // biến role là toàn cục chỉ cần check xem có nhóm quyền đặt vào if là phần quyền backend xong
+        console.log("được quyền")
+        req.body.price = parseInt(req.body.price)
+        req.body.discountPercentage = parseInt(req.body.discountPercentage)
+        req.body.stock = parseInt(req.body.stock)
+        req.body.position = parseInt(req.body.position);
+        // if(req.file){
+        // req.body.thumbnail=`/uploads/${req.file.filename}`;
+        // } // upload image vào trong folder uploads mới cần
+        try {
+            const updatedBy = {
+                account_id: res.locals.user.id,
+                updatedAt: new Date()
+            }
+    
+        await Product.updateOne({_id : req.params.id},{
+        ...req.body,
+        $push: { updatedBy: updatedBy }
+        });
+        req.flash("success","Cập nhật sản phẩm thành công!");
+        } catch (error) {
+        req.flash("error","Cập nhật sản phẩm thất bại!") 
         }
-
-    await Product.updateOne({_id : req.params.id},{
-    ...req.body,
-    $push: { updatedBy: updatedBy }
-    });
-    req.flash("success","Cập nhật sản phẩm thành công!");
-    } catch (error) {
-    req.flash("error","Cập nhật sản phẩm thất bại!") 
+    
+        res.redirect(`back`);
     }
-
-    res.redirect(`back`);
+    else{
+        return;
+    }
+  
 }
 
 
