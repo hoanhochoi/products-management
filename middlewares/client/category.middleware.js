@@ -3,7 +3,6 @@ const creteTreeHelper = require("../../helpers/createTreeHelper");
 module.exports.category = async (req,res,next)=>{
     const productsCategory = await ProductCategory.find({deleted:false});
     const newProductsCategory = creteTreeHelper.tree(productsCategory);
-    console.log('luôn chạy qua đây');
     res.locals.layoutProductsCategory = newProductsCategory;// lưu ý locals phải có s vì số nhiều có nhiều mà
     next();
 }
