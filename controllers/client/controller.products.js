@@ -19,20 +19,31 @@ module.exports.index = async (req,res)=>{
     });
 };
 
-// [GET] /product/:slug 
+// [GET] /product/detail/:slug 
 module.exports.detail = async (req,res)=>{
-    console.log(req.params.slug);
+    console.log(req.params.slugProduct);
     try {
         const find = {
             deleted: false,
-            slug: req.params.slug,
+            slug: req.params.slugProduct,
             status: "active"
         }
     const product  = await Product.findOne(find)
-    console.log(product)
+     
+    if(product.product_category_id){
+        const category = await ProductCategory.findOne({
+            _id: product.product_category_id,
+            status: "active",
+            deleted: false
+        });
+        product.category = category;
+    }
+    product.newPrice = ProductsHelper.priceNewProductItem(product);
+    console.log("new price:"+ product.newPrice)
+
     res.render("./client/pages/products/detail.pug",{
         pageTitle : product.title,
-        product : product
+        product : product,
     })
     } catch (error) {
         res.redirect("/product")
@@ -45,39 +56,30 @@ module.exports.detail = async (req,res)=>{
 module.exports.category = async (req,res)=>{
     const slugCategory = req.params.slugCategory;
     console.log(slugCategory);
-    const category = await ProductCategory.findOne({
-        slug: slugCategory,
-        status: "active",
-        deleted: false
-    })
-    console.log(category)
-    // const getSubCategory = async (parentId)=>{
-    //     const subs = await ProductCategory.find({
-    //         parent_id : parentId,
-    //         status: "active",
-    //         deleted: false
-    //     })
-    //     const allSub = [...subs]; // ...sub là trải dài ra
-    //     for (const sub of subs) {
-    //         const child = await getSubCategory(sub.id);
-    //         allSub.concat(child)
-    //     }
-    //     return allSub;
-    // }
-    const listSubCategory = await ProductCategoryHelper.getSubCategory(category.id);
-    const listSubCategoryId = listSubCategory.map(item => item.id);
-    console.log(listSubCategoryId);
-
-
-    const product = await Product.find({
-        product_category_id: {$in:[category.id,...listSubCategoryId]},
-        deleted: false
-    }).sort({position: "desc"})
-    const newProducts = ProductsHelper.priceNewProduct(product);
-
-    res.render("client/pages/products/lists.pug",{
-    pageTitle : category.title,
-    products : newProducts
-    });
+    try {
+        const category = await ProductCategory.findOne({
+            slug: slugCategory,
+            status: "active",
+            deleted: false
+        })
+        console.log(category)
+        const listSubCategory = await ProductCategoryHelper.getSubCategory(category.id);
+        const listSubCategoryId = listSubCategory.map(item => item.id);
+        console.log(listSubCategoryId);
+    
+    
+        const product = await Product.find({
+            product_category_id: {$in:[category.id,...listSubCategoryId]},
+            deleted: false
+        }).sort({position: "desc"})
+        const newProducts = ProductsHelper.priceNewProduct(product);
+    
+        res.render("client/pages/products/lists.pug",{
+        pageTitle : category.title,
+        products : newProducts
+        });
+    } catch (error) {
+        res.redirect("back")
+    }
    
 }
