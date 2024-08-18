@@ -1,4 +1,30 @@
 const Cart = require("../../models/carts.model");
+const Product = require("../../models/products.model");
+const productHelper = require("../../helpers/products");
+// [GET] card/
+module.exports.index = async (req,res)=>{
+    const cardId = req.cookies.cartId;
+    const cart = await Cart.findOne({ // nếu tìm 1 cái thì chỉ dùng findOne
+        _id : cardId
+    })
+    if(cart.products.length > 0){
+        for (const item of cart.products) {
+            const productInfo = await Product.findOne({
+                _id : item.product_id
+            }).select("thumbnail price slug title discountPercentage")
+            productInfo.priceNew = productHelper.priceNewProductItem(productInfo);
+            
+            item.productInfo = productInfo;
+            item.totalPrice = productInfo.priceNew * item.quantity;
+        }
+        cart.sumPrice = cart.products.reduce((sum,item)=>sum + parseInt(item.totalPrice),0);
+    }
+    console.log(cart)
+    res.render("./client/pages/cart/index.pug",{
+        pageTitle: "Giỏ hàng",
+        cartDetail: cart
+    })
+}
 // [POST] cart/add/productId
 module.exports.addPost = async (req,res)=>{
     const productId = req.params.productId // lưu ý req. là lấy ra nhưng gì có còn res là tạo ra chưa có
