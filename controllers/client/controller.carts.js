@@ -19,7 +19,7 @@ module.exports.index = async (req,res)=>{
         }
         cart.sumPrice = cart.products.reduce((sum,item)=>sum + parseInt(item.totalPrice),0);
     }
-    console.log(cart)
+    // console.log(cart)
     res.render("./client/pages/cart/index.pug",{
         pageTitle: "Giỏ hàng",
         cartDetail: cart
@@ -66,5 +66,35 @@ module.exports.addPost = async (req,res)=>{
     }
   
     req.flash("success","đã thêm sản phẩm vào giỏ hàng thành công!")
+    res.redirect("back");
+}
+
+// [GET] cart/delete/:id
+module.exports.delete = async (req,res)=>{
+    const productId = req.params.productId;
+    const cartId = req.cookies.cartId;
+    await Cart.updateOne(
+        {_id : cartId},
+        {$pull:{products :{product_id: productId}}}
+    )
+    console.log("id san pham "+req.params.productId)
+    req.flash("success","xoa san pham thanh cong")
+    res.redirect("back")
+}
+
+// [GET] cart/update/:productId/:quantity
+module.exports.update = async (req,res)=>{
+    const cartId = req.cookies.cartId;
+    const productId = req.params.productId;
+    const quantity = req.params.quantity;
+    await Cart.updateOne(
+        {
+            _id: cartId,
+            "products.product_id" : productId
+        },{
+            "$set":{"products.$.quantity": quantity}
+            // https://stackoverflow.com/questions/15691224/mongoose-update-values-in-array-of-objects/
+        })
+    req.flash("success","cập nhật sản phẩm thành công")
     res.redirect("back");
 }
