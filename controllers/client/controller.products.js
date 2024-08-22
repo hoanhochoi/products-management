@@ -21,7 +21,7 @@ module.exports.index = async (req,res)=>{
 
 // [GET] /product/detail/:slug 
 module.exports.detail = async (req,res)=>{
-    console.log(req.params.slugProduct);
+    // console.log(req.params.slugProduct);
     try {
         const find = {
             deleted: false,
@@ -39,7 +39,7 @@ module.exports.detail = async (req,res)=>{
         product.category = category;
     }
     product.newPrice = ProductsHelper.priceNewProductItem(product);
-    console.log("new price:"+ product.newPrice)
+    // console.log("new price:"+ product.newPrice)
 
     res.render("./client/pages/products/detail.pug",{
         pageTitle : product.title,
@@ -55,17 +55,17 @@ module.exports.detail = async (req,res)=>{
 // [GET] /product/:slugCategory 
 module.exports.category = async (req,res)=>{
     const slugCategory = req.params.slugCategory;
-    console.log(slugCategory);
+    // console.log(slugCategory);
     try {
         const category = await ProductCategory.findOne({
             slug: slugCategory,
             status: "active",
             deleted: false
         })
-        console.log(category)
+        // console.log(category)
         const listSubCategory = await ProductCategoryHelper.getSubCategory(category.id);
         const listSubCategoryId = listSubCategory.map(item => item.id);
-        console.log(listSubCategoryId);
+        // console.log(listSubCategoryId);
     
     
         const product = await Product.find({

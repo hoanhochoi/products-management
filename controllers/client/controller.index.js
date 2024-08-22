@@ -11,7 +11,7 @@ module.exports.index = async (req,res)=>{
         status: "active"
     }).limit(6); // limit lấy giới hạn là 6 sản phẩm
     const newProductsFeatured = ProductsHelper.priceNewProduct(productFeatured);
-    console.log(newProductsFeatured);
+    // console.log(newProductsFeatured);
 
     // lấy sản phẩm mới nhất
     const productNew = await Product.find({
