@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 const controller = require("../../controllers/client/controller.user.js");
 const validate = require("../../validates/client/user.validate.js");
+const authMiddleware = require("../../middlewares/client/auth.middleware.js")
 
 route.get("/register",controller.register)
 route.post("/register",validate.registerPost,controller.registerPost)
@@ -15,5 +16,6 @@ route.get("/password/otp",controller.otpPassword)
 route.post("/password/otp",controller.otpPasswordPost)
 route.get("/password/reset",controller.resetPassword);
 route.post("/password/reset",validate.resetPasswordPost,controller.resetPasswordPost);
+route.get("/info",authMiddleware.requireAuth,controller.info)
 
 module.exports = route;

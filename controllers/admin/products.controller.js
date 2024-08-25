@@ -232,8 +232,14 @@ module.exports.createPost = async (req,res) =>{
         account_id: res.locals.user.id
     }
     const product = new Product(req.body)
+    console.log(product);
 
     await product.save();
+//    try {
+    
+//    } catch (error) {
+//     next(error)
+//    }
 
     res.redirect(`${systemConfig.prefixAdmin}/product`)
     

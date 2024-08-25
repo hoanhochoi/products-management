@@ -1,4 +1,5 @@
 const User = require("../../models/user.model.js");
+const Cart = require("../../models/carts.model.js");
 const ForgotPassword = require("../../models/forgotPassword.model.js");
 const md5 = require("md5")
 const generateRandomHelper = require("../../helpers/generate.js");
@@ -60,6 +61,23 @@ module.exports.loginPost = async (req,res)=>{
         res.redirect("back")
         return ;
     }
+    console.log(req.cookies.cartId);
+    console.log(user.id);
+    const cart = await Cart.findOne({
+        user_id: user.id,
+    });
+    if(cart){
+        console.log("thằng này đã có giỏ hàng")
+        res.cookie("cartId",cart.id);
+    }else{
+        await Cart.updateOne({
+            _id: req.cookies.cartId
+        },{
+            user_id: user.id
+        })
+    }
+ 
+
     res.cookie("tokenUser",user.tokenUser)
     res.redirect("/")
 }
@@ -68,6 +86,7 @@ module.exports.loginPost = async (req,res)=>{
 // [GET] user/logout
 module.exports.logout = (req,res)=>{
     res.clearCookie("tokenUser");
+    // res.clearCookie("cartId");
     res.redirect("/");
 }
 
@@ -160,4 +179,13 @@ module.exports.resetPasswordPost = async (req,res)=>{
     })
     req.flash("success","đổi mật khẩu thành công")
     res.redirect("/");
+}
+
+// [GET] user/info
+
+module.exports.info = async (req,res)=>{
+    res.render("./client/pages/user/info",{
+        pageTitle: "Thông tin tài khoản",
+        
+    })
 }
