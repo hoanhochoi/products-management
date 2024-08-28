@@ -73,6 +73,12 @@ app.use(express.static(`${__dirname}/public`));
 routeAdmin(app);
 route(app); // lưu ý là nên để route ở cuối
 
+app.get("*",(req,res)=>{ // tất cả các route không giống ở admin và clint 
+  res.render("./client/pages/error/404.pug",{
+    pageTitle: "404 not found"
+  })
+})
+
 
 
 app.listen(port, () => {
