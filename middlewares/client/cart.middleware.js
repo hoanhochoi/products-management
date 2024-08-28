@@ -4,7 +4,6 @@ module.exports.cart = async (req,res,next)=>{
     if(!req.cookies.cartId){
         // tạo giỏ hàng
         const cart = new Cart();
-        console.log("tạo thêm giỏ hàng mới chạy vào đây")
         await cart.save();
         const expiresCookie =   365 * 24 * 60 * 60 * 1000
         res.cookie("cartId",cart.id,{expires: new Date(Date.now() + expiresCookie)}); 
