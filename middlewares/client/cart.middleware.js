@@ -1,6 +1,6 @@
 const Cart = require("../../models/carts.model");
 module.exports.cart = async (req,res,next)=>{
-    console.log("luôn luôn chạy vào cart này");
+    // console.log("luôn luôn chạy vào cart này");
     if(!req.cookies.cartId){
         // tạo giỏ hàng
         const cart = new Cart();

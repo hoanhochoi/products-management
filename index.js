@@ -5,6 +5,9 @@ const moment = require('moment');
 const methodOverride = require("method-override");
 require("dotenv").config();
 
+const http = require("http");
+const { Server } = require("socket.io");
+
 const database = require("./config/database")
 
 const route = require("./routes/client/index.route");
@@ -30,6 +33,14 @@ const app = express();
 
 const port = process.env.PORT;
 
+// SocketIo
+const server = http.createServer(app);
+const io = new Server(server); 
+
+io.on("connection",(socket)=>{
+  console.log("a user connected", socket.id);
+})
+// End SocketIO
 app.use(methodOverride('_method'));
 
 // parse application/x-www-form-urlencoded
@@ -81,6 +92,6 @@ app.get("*",(req,res)=>{ // tất cả các route không giống ở admin và c
 
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`app listening on port ${port}`)
 })
