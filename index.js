@@ -36,10 +36,8 @@ const port = process.env.PORT;
 // SocketIo
 const server = http.createServer(app);
 const io = new Server(server); 
+global._io = io;
 
-io.on("connection",(socket)=>{
-  console.log("a user connected", socket.id);
-})
 // End SocketIO
 app.use(methodOverride('_method'));
 

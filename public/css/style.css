@@ -313,3 +313,7 @@ product-detail .inner-price-old{
     cursor: pointer;
 }
 /* end chat */
+
+.inner-menu ul li{
+    margin: 6px;
+}

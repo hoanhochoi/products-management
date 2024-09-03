@@ -9,6 +9,8 @@ const CategoryMiddleware = require("../../middlewares/client/category.middleware
 const CartMiddleware = require("../../middlewares/client/cart.middleware");
 const UserMiddleware = require("../../middlewares/client/user.middleware");
 const SettingMiddleware = require("../../middlewares/client/setting.middleware.js");
+const authMiddleware = require("../../middlewares/client/auth.middleware.js")
+
 
 module.exports = (app) =>{
     // vì bên client hầu như nào cũng dùng nên code như này cho tiện
@@ -22,6 +24,6 @@ module.exports = (app) =>{
     app.use("/cart",cartRoutes);
     app.use("/checkout",checkoutRoutes);
     app.use("/user",userRotes);
-    app.use("/chat",chatRoute);
+    app.use("/chat",authMiddleware.requireAuth,chatRoute);
 
 }

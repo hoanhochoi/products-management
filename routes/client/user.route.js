@@ -3,7 +3,6 @@ const route = express.Router();
 const controller = require("../../controllers/client/controller.user.js");
 const validate = require("../../validates/client/user.validate.js");
 const authMiddleware = require("../../middlewares/client/auth.middleware.js")
-
 route.get("/register",controller.register)
 route.post("/register",validate.registerPost,controller.registerPost)
 
