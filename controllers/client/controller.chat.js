@@ -1,9 +1,9 @@
 const Chat = require("../../models/chat.model");
 const User = require("../../models/user.model");
-const user = require("../../models/user.model")
 // [GET] chat/
 module.exports.index = async (req,res)=>{
     const userId = res.locals.user.id;
+    const fullName = res.locals.user.fullName;
     // socketIo
     _io.once("connection",(socket)=>{
         // dùng once khi load lại trang vẫn chỉ lưu 1
@@ -14,6 +14,13 @@ module.exports.index = async (req,res)=>{
                 content: content
             })
             await chat.save();
+
+            // Trả data về client
+            _io.emit("SERVER_RETURN_MESSAGE",{
+                userId : userId,
+                fullName : fullName,
+                content: content
+            })
         })
       })
     //  end socketIo
