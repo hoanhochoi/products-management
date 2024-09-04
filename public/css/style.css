@@ -192,6 +192,9 @@ product-detail .inner-price-old{
     border-radius: 8px
 }
 /* end product-detail */
+.title-page{
+    margin-left: 14%;
+}
 
 /* show alert */
 
@@ -232,6 +235,7 @@ product-detail .inner-price-old{
 /* end show alert */
 
 /* chat */
+
 .chat {
     width: 100%;
     border: 1px solid #ddd;
@@ -312,7 +316,9 @@ product-detail .inner-price-old{
     padding: 0 10px;
     cursor: pointer;
 }
+    
 /* end chat */
+
 
 .inner-menu ul li{
     margin: 6px;

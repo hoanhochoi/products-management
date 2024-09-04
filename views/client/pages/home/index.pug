@@ -4,14 +4,13 @@ include ../../mixins/product-layout.pug
 
 
 block main
-    h1 Trang chủ
+    h1(class="title-page") Trang chủ
     .section-products-featured.my-5 
         .container 
             .row 
                 .col-12 
                     +box-head("Sản phẩm nổi bật")
             +product-grid(productsFeatured)
-    p có ngăn cách ở đây
 
     .section-products-featured.my-5 
         .container 
