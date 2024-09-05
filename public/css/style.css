@@ -325,3 +325,20 @@ product-detail .inner-price-old{
 .inner-menu ul li{
     margin: 6px;
 }
+
+
+/* emoji picker */
+.tooltip {
+    visibility: hidden;
+}
+
+.tooltip.shown {
+    visibility: visible;
+    opacity: 1; /* để là 1 hiển thị 0 thì không nhìn đc*/
+}
+/* end emoje picker */
+.fa-regular{
+    border-radius: 15px;
+    border: 1px solid #fe5da3;
+    background: yellow;
+}
