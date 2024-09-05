@@ -69,6 +69,20 @@ if(emojiPicker){
         console.log(e.detail.unicode);
         const icon = e.detail.unicode;
         input.value += icon;
+    });
+
+    // input keyup
+    input.addEventListener("keyup",(e)=>{
+        console.log(e)
+        socket.emit("CLIENT_SEND_TYPING","show");
     })
+
+    // end input keyup
 }
 // end insert icon
+
+// SERVER_RETURN_TYPING
+socket.on("SERVER_RETURN_TYPING",(data)=>{
+    console.log(data);
+})
+// End SERVER_RETURN_TYPING

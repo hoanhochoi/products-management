@@ -22,6 +22,17 @@ module.exports.index = async (req,res)=>{
                 content: content
             })
         })
+
+        // typing
+        socket.on("CLIENT_SEND_TYPING",async (type)=>{
+            socket.broadcast.emit("SERVER_RETURN_TYPING",{
+                userId : userId,
+                fullName: fullName,
+                type: type
+            })
+        })
+        // end typing 
+
       })
     //  end socketIo
 
@@ -35,7 +46,6 @@ module.exports.index = async (req,res)=>{
         }).select("fullName");
         chat.infoUser =  infoUser;
     }
-    console.log(chats);
     // hết lấy data từ database
     res.render("./client/pages/chat/index.pug",{
         pageTitle: "Chat",
