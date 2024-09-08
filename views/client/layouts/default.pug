@@ -7,6 +7,8 @@ html
         link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
         link(rel="stylesheet", href="/css/style.css")
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css")
+        //- file-upload-with-preview
+        //- link(rel="stylesheet",type ="text/css", href="https://unpkg.com/file-upload-with-preview/dist/style.css")
     body 
         +alert-success(5000)
         include ../partials/header.pug
@@ -15,7 +17,8 @@ html
         block main
         
         include ../partials/footer.pug
-
+        //-         //- file-upload-with-preview
+        //- script(src="https://unpkg.com/file-upload-with-preview/dist/index.js") 
         script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js")
         script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js") 
         script(src="/js/script.js  ")  
