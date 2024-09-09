@@ -4,5 +4,6 @@ const controller = require("../../controllers/client/controller.users.js");
 
 route.get("/not-friend",controller.notFriend)
 route.get("/request",controller.request)
+route.get("/accept",controller.accept)
 
 module.exports = route;

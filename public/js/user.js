@@ -15,7 +15,6 @@ if(listBtnAddFriend.length > 0){
 
 // chức năng xóa yêu cầu kết bạn
 const listBtnCancelFriend = document.querySelectorAll("[btn-cancel-friend]");
-console.log("list cancel")
 if(listBtnCancelFriend.length > 0){
     listBtnCancelFriend.forEach(btn=>{
         btn.addEventListener("click",()=>{
@@ -28,3 +27,18 @@ if(listBtnCancelFriend.length > 0){
     })
 }
 // end chức năng x yêu càu
+
+// chức năng từ chối kết bạn
+const listBtnRefuseFriend = document.querySelectorAll("[btn-refuse-friend]");
+if(listBtnRefuseFriend.length > 0){
+    listBtnRefuseFriend.forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            const userId = btn.getAttribute("btn-refuse-friend");
+            console.log(userId)
+            btn.closest(".box-user").classList.add("refuse"); // tìm đến bên ngoài của thẻ
+            socket.emit("CLIENT_REFUSE_FRIEND",userId);
+        })
+        
+    })
+}
+// end chức năng từ chối kết bạn

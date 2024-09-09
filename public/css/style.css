@@ -434,3 +434,19 @@ product-detail .inner-price-old{
 .box-user.add [btn-cancel-friend]{
     display: inline-block
 }
+
+.box-user [btn-deleted-friend]{
+    display: none;
+}
+
+.box-user.refuse [btn-accept-friend]{
+    display: none;
+}
+.box-user.fefuse [btn-refuse-friend]{
+    display: none;
+}
+.box-user.fefuse [btn-refuse-friend]{
+    display: inline-block;
+}
+
+/*end box-user*/
