@@ -19,4 +19,11 @@
             class="btn btn-primary m-1"
             href="/users/accept"
            
-        ) Lời mởi kết bạn
+        ) 
+            | Lời mởi kết bạn
+            span(
+                class="badge badge-light"
+                badge-users-accept= user.id
+            ) #{user.acceptFriends.length}
+
+

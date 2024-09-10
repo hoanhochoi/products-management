@@ -57,3 +57,17 @@ if(listBtnAcceptFriend.length > 0){
     })
 }
 // end chức năng chấp nhận kết bạn
+
+
+//  SERVER_RETURN_LENGTH_ACCEPT_FRIEND
+const badgeUsersAccept = document.querySelector("[badge-users-accept] ");
+if(badgeUsersAccept ){
+    const badgeUsersAcceptId = badgeUsersAccept.getAttribute("badge-users-accept")
+    socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",(data)=>{
+        console.log(data)
+        if(data.userId === badgeUsersAcceptId)
+            badgeUsersAccept.innerHTML = data.lengthAcceptFriends;
+    })
+}
+
+//  END SERVER_RETURN_LENGTH_ACCEPT_FRIEND
