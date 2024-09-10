@@ -42,3 +42,18 @@ if(listBtnRefuseFriend.length > 0){
     })
 }
 // end chức năng từ chối kết bạn
+
+// chức năng chấp nhận kết bạn
+const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]");
+if(listBtnAcceptFriend.length > 0){
+    listBtnAcceptFriend.forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            const userId = btn.getAttribute("btn-accept-friend");
+            console.log(userId)
+            btn.closest(".box-user").classList.add("accepted"); // tìm đến bên ngoài của thẻ
+            socket.emit("CLIENT_ACCEPT_FRIEND",userId);
+        })
+        
+    })
+}
+// end chức năng chấp nhận kết bạn
