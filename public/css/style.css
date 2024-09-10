@@ -435,6 +435,7 @@ product-detail .inner-price-old{
     display: inline-block
 }
 
+
 .box-user [btn-deleted-friend]{
     display: none;
 }
@@ -442,10 +443,10 @@ product-detail .inner-price-old{
 .box-user.refuse [btn-accept-friend]{
     display: none;
 }
-.box-user.fefuse [btn-refuse-friend]{
+.box-user.refuse [btn-refuse-friend]{
     display: none;
 }
-.box-user.fefuse [btn-refuse-friend]{
+.box-user.refuse [btn-deleted-friend]{
     display: inline-block; 
 }
 
