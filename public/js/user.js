@@ -80,6 +80,7 @@ if(userAccept){
             // vẽ user ra giao diện
             const div = document.createElement("div")
             div.classList.add("col-6")
+            div.setAttribute("user-id",data.infoUserA._id)
             const string = `
                 
                      <div class="box-user ">
@@ -130,4 +131,21 @@ if(userAccept){
 
 //END  SERVER_RETURN_INFO_ACCEPT_FRIEND
 
+
+
+// SERVER_RETURN_USER_ID_CANCEL_FRIEND
+socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND",(data)=>{
+    const userIdA = data.userIdA;
+    const userIdB = data.userIdB;
+    const boxUserRemove = document.querySelector(`[user-id='${userIdA}']`)
+    if(boxUserRemove){
+        console.log(boxUserRemove)
+        const dataUserAccept = document.querySelector("[data-user-accept]")
+        const userIdB = badgeUsersAccept.getAttribute("badge-users-accept")
+        if(userIdB === data.userIdB ){ // vì socket.broadcast sẽ gửi đi tất cả nên phải check không xóa tất cả các user
+            dataUserAccept.removeChild(boxUserRemove);
+        }
+    }
+})
+//end  SERVER_RETURN_USER_ID_CANCEL_FRIEND
 

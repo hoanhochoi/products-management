@@ -4,8 +4,8 @@ module.exports = (res) => {
         // chức năng gửi yêu cầu
         socket.on("CLIENT_ADD_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
-            console.log("id chính:" + myUserId);
-            console.log(userId) // Id của B
+            // console.log("id chính:" + myUserId);
+            // console.log(userId) // Id của B
             // thêm id của B vào requestFriend của A
             const existAinB = await User.findOne({
                 _id: myUserId,
@@ -59,8 +59,8 @@ module.exports = (res) => {
         // chức năng hủy gửi yêu cầu
         socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
-            console.log("id chính:" + myUserId);
-            console.log(userId) // Id của B
+            // console.log("id chính:" + myUserId);
+            // console.log(userId) // Id của B
             // xóa id của B vào requestFriend của A
             const existAinB = await User.findOne({
                 _id: myUserId,
@@ -99,13 +99,18 @@ module.exports = (res) => {
                 lengthAcceptFriends: lengthAcceptFriends
             });
 
+
+            // lấy id của A trả cho B
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND",{
+                userIdA: myUserId,
+                userIdB: userId
+            })
+
         })
 
         // chức năng từ chối kết bạn
         socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
-            console.log("id chính:" + myUserId);
-            console.log(userId) // Id của B
             // xóa id của B trong requestFriend của A
             const existAinB = await User.findOne({
                 _id: userId,
@@ -137,8 +142,8 @@ module.exports = (res) => {
         // chức năng chấp nhận kết bạn
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
-            console.log("id chính:" + myUserId);
-            console.log(userId) // Id của B
+            // console.log("id chính:" + myUserId);
+            // console.log(userId) // Id của B
             // xóa id của B trong requestFriend của A
             // thêm {user_id,room_chat_id} của B vào friendList của A
             const existAinB = await User.findOne({
