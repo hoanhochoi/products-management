@@ -68,3 +68,26 @@ module.exports.accept = async (req, res) => {
         users: users
     })
 }
+
+module.exports.friend = async (req,res)=>{
+    // socket
+    usersSocket(res)
+    // end Socket
+    const userId = res.locals.user.id;
+    const myUser = await User.findOne({
+        _id: userId
+    })
+    const friendList = myUser.friendList;
+    const friendListId = friendList.map(item => item.user_id);
+    console.log(friendListId)
+    const users = await User.find({
+        _id: {$in : friendListId},
+        status: "active",
+        deleted: false,
+    }).select("fullName avatar id statusOnline")
+    console.log(users);
+    res.render("./client/pages/users/friends.pug",{
+        pageTitle: "Danh sách bạn bè",
+        users : users
+    })
+}
