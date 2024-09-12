@@ -13,12 +13,14 @@ const SettingMiddleware = require("../../middlewares/client/setting.middleware.j
 const authMiddleware = require("../../middlewares/client/auth.middleware.js")
 
 
+
 module.exports = (app) =>{
     // vì bên client hầu như nào cũng dùng nên code như này cho tiện
     app.use(CategoryMiddleware.category); // dùng như này thì tất cả các app không cần thêm mỗi middleware nữa
     app.use(CartMiddleware.cart);
     app.use(UserMiddleware.infoUser);
     app.use(SettingMiddleware.SettingGeneral);
+    // tất cả các route chạy qua middleware này
     app.use("/",homeRoutes);  // vì là trang chủ trang home ban đầu nên không có thêm /..gì cả lưu ý
     app.use("/product", productRoutes);
     app.use("/search",searchRoutes)

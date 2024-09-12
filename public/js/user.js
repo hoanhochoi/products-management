@@ -130,11 +130,11 @@ socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
 
     // Trang danh sách người dùng
     const dataUserNotFriend = document.querySelector("[data-user-notFriend]");
-    if(dataUserNotFriend){
+    if (dataUserNotFriend) {
         const userRemove = dataUserNotFriend.querySelector(`[user-id='${data.infoUserA._id}']`);
         console.log(userRemove);
         const myUserId = dataUserNotFriend.getAttribute("data-user-notFriend")
-        if(myUserId === data.userId){
+        if (myUserId === data.userId) {
             dataUserNotFriend.removeChild(userRemove);
         }
     }
@@ -160,3 +160,16 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND", (data) => {
 })
 //end  SERVER_RETURN_USER_ID_CANCEL_FRIEND
 
+// SERVER_RETURN_USER)STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+    const dataUserFriend = document.querySelector(`[data-user-friend]`);
+    if (dataUserFriend) {
+        const userStatus = dataUserFriend.querySelector(`[user-id='${data.userId}']`)
+        if (userStatus) {
+            const boxStatus = dataUserFriend.querySelector(("[status]"))
+            boxStatus.setAttribute("status", data.status)
+        }
+
+    }
+})
+// end SERVER_RETURN_USER_STATUS_ONLINE
