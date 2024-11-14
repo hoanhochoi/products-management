@@ -103,7 +103,7 @@ module.exports.changeStatus = async (req,res) =>{
         account_id: res.locals.user.id,
         updatedAt: new Date()
     }
-    
+    console.log(res.locals);
     await Product.updateOne({_id:id}, {
         status:status,
         $push: { updatedBy: updatedBy }
